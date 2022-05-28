@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\KategoriController;
 use App\Http\Controllers\Api\User\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,5 +23,15 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [LoginController::class, 'login'])->name('user.login');
 Route::post('/register', [LoginController::class, 'register'])->name('user.register');
 Route::get('/logout', [LoginController::class, 'logout'])->name('user.logout');
+
+// KATEGORI - ADMIN
+Route::middleware('jwt')->group(function(){
+    Route::prefix('kategori')->name('kategori.')->group(function(){
+        Route::get('/',[KategoriController::class, 'index'])->name('index');
+        Route::post('/create',[KategoriController::class, 'store'])->name('store');
+        Route::post('/edit/{id}',[KategoriController::class, 'update'])->name('update');
+        Route::post('/delete/{id}',[KategoriController::class, 'delete'])->name('delete');
+    });
+});
 
 
