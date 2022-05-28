@@ -30,7 +30,7 @@ class JWTMiddleware
         }catch (TokenInvalidException $th) {
             $message = 'Token Invalid';
         }catch (JWTException $th) {
-            $message = 'Provice Token';
+            $message = 'Provide Token';
         }
 
         return response()->json([

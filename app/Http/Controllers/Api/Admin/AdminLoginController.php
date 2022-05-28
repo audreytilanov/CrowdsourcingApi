@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Api\User;
+namespace App\Http\Controllers\Api\Admin;
 
 use Exception;
-use App\Models\User;
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class LoginController extends Controller
+class AdminLoginController extends Controller
 {
     public function login(Request $request){
 
         $credentials = $request->only(['email', 'password']);
 
-        if(!$token = Auth::guard('api')->attempt($credentials)){
+        if(!$token = Auth::guard('admin')->attempt($credentials)){
             return response()->json([
                 'success' => false,
                 'message' => "Invalid Credentials"
@@ -26,7 +26,7 @@ class LoginController extends Controller
             return response()->json([
                 'success' => true,
                 'token' => $token,
-                'user' => Auth::guard('api')->user()
+                'user' => Auth::guard('admin')->user()
             ]);
         }
 
@@ -36,7 +36,7 @@ class LoginController extends Controller
         $pass = Hash::make($request->password);
         // dd($request);
         try{
-            User::create([
+            Pegawai::create([
                 'name' => $request->name,
                 'alamat' => $request->alamat,
                 'email' => $request->email,

@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use Exception;
-use App\Models\Kategori;
+use App\Models\PaketJasa;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
-class KategoriController extends Controller
+class PaketJasaController extends Controller
 {
     public function index(){
-        $data = Kategori::all();
+        $data = PaketJasa::all();
 
         return response()->json([
             'success' => true,
@@ -21,13 +20,13 @@ class KategoriController extends Controller
 
     public function store(Request $request){
         try{
-            Kategori::create([
+            PaketJasa::create([
                 'nama' => $request->nama,
                 'deskripsi' => $request->deskripsi,
             ]);
             return response()->json([
                 'success' => true,
-                'message' => "Kategori Created"
+                'message' => "Paket Jasa Created"
             ]);
         }catch(Exception $e){
             return response()->json([
@@ -40,7 +39,7 @@ class KategoriController extends Controller
     public function update($id, Request $request){
 
         try{
-            $kategoriId = Kategori::find($id);
+            $kategoriId = PaketJasa::find($id);
 
             $kategoriId->update([
                 'nama' => $request->nama,
@@ -48,7 +47,7 @@ class KategoriController extends Controller
             ]);
             return response()->json([
                 'success' => true,
-                'message' => "Kategori Updated",
+                'message' => "Paket Jasa Updated",
             ]);
         }catch(Exception $e){
             return response()->json([
@@ -61,12 +60,12 @@ class KategoriController extends Controller
     public function delete($id){
 
         try{
-            $kategoriId = Kategori::find($id);
+            $kategoriId = PaketJasa::find($id);
 
             $kategoriId->delete();
             return response()->json([
                 'success' => true,
-                'message' => "Kategori Deleted"
+                'message' => "Paket Jasa Deleted"
             ]);
         }catch(Exception $e){
             return response()->json([
