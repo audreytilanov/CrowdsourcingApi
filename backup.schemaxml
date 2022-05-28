@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="latin1" collation="latin1_swedish_ci">crowdsourcing</database>
+</source>
+<canvas zoom="90">
+<tables>
+<table name="users" view="colnames">
+<left>647</left>
+<top>210</top>
+<width>131</width>
+<height>208</height>
+<sql_create_table>CREATE TABLE `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="transaksis" view="colnames">
+<left>431</left>
+<top>21</top>
+<width>113</width>
+<height>208</height>
+<sql_create_table>CREATE TABLE `transaksis` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `pegawai_id` bigint(20) unsigned NOT NULL,
+  `kategori_id` bigint(20) unsigned NOT NULL,
+  `jumlah_harga` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `transaksis_user_id_foreign` (`user_id`),
+  KEY `transaksis_pegawai_id_foreign` (`pegawai_id`),
+  KEY `transaksis_kategori_id_foreign` (`kategori_id`),
+  CONSTRAINT `transaksis_kategori_id_foreign` FOREIGN KEY (`kategori_id`) REFERENCES `kategoris` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `transaksis_pegawai_id_foreign` FOREIGN KEY (`pegawai_id`) REFERENCES `pegawais` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `transaksis_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="detail_diskusis" view="colnames">
+<left>440</left>
+<top>251</top>
+<width>99</width>
+<height>198</height>
+<sql_create_table>CREATE TABLE `detail_diskusis` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `diskusi_id` bigint(20) unsigned NOT NULL,
+  `pegawai_id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `text` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `detail_diskusis_diskusi_id_foreign` (`diskusi_id`),
+  KEY `detail_diskusis_pegawai_id_foreign` (`pegawai_id`),
+  KEY `detail_diskusis_user_id_foreign` (`user_id`),
+  CONSTRAINT `detail_diskusis_diskusi_id_foreign` FOREIGN KEY (`diskusi_id`) REFERENCES `diskusis` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `detail_diskusis_pegawai_id_foreign` FOREIGN KEY (`pegawai_id`) REFERENCES `pegawais` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `detail_diskusis_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="diskusis" view="colnames">
+<left>279</left>
+<top>480</top>
+<width>131</width>
+<height>177</height>
+<sql_create_table>CREATE TABLE `diskusis` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `mapping_grup_id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `transaksi_id` bigint(20) unsigned NOT NULL,
+  `tipe_diskusi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `diskusis_mapping_grup_id_foreign` (`mapping_grup_id`),
+  KEY `diskusis_user_id_foreign` (`user_id`),
+  KEY `diskusis_transaksi_id_foreign` (`transaksi_id`),
+  CONSTRAINT `diskusis_mapping_grup_id_foreign` FOREIGN KEY (`mapping_grup_id`) REFERENCES `mapping_grups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `diskusis_transaksi_id_foreign` FOREIGN KEY (`transaksi_id`) REFERENCES `transaksis` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `diskusis_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="detail_transaksis" view="colnames">
+<left>242</left>
+<top>28</top>
+<width>104</width>
+<height>177</height>
+<sql_create_table>CREATE TABLE `detail_transaksis` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `transaksi_id` bigint(20) unsigned NOT NULL,
+  `jasa_id` bigint(20) unsigned NOT NULL,
+  `qty` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `harga_total` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `detail_transaksis_transaksi_id_foreign` (`transaksi_id`),
+  KEY `detail_transaksis_jasa_id_foreign` (`jasa_id`),
+  CONSTRAINT `detail_transaksis_jasa_id_foreign` FOREIGN KEY (`jasa_id`) REFERENCES `jasas` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `detail_transaksis_transaksi_id_foreign` FOREIGN KEY (`transaksi_id`) REFERENCES `transaksis` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="materials" view="colnames">
+<left>44</left>
+<top>44</top>
+<width>138</width>
+<height>162</height>
+<sql_create_table>CREATE TABLE `materials` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `detail` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `link` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `detail_transaksi_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `materials_detail_transaksi_id_foreign` (`detail_transaksi_id`),
+  CONSTRAINT `materials_detail_transaksi_id_foreign` FOREIGN KEY (`detail_transaksi_id`) REFERENCES `detail_transaksis` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="detail_payments" view="colnames">
+<left>666</left>
+<top>8</top>
+<width>127</width>
+<height>162</height>
+<sql_create_table>CREATE TABLE `detail_payments` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `transaksi_id` bigint(20) unsigned NOT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `detail_payments_transaksi_id_foreign` (`transaksi_id`),
+  CONSTRAINT `detail_payments_transaksi_id_foreign` FOREIGN KEY (`transaksi_id`) REFERENCES `transaksis` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="pegawais" view="colnames">
+<left>648</left>
+<top>441</top>
+<width>131</width>
+<height>223</height>
+<sql_create_table>CREATE TABLE `pegawais` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `pegawais_email_unique` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="roles" view="colnames">
+<left>1061</left>
+<top>485</top>
+<width>99</width>
+<height>131</height>
+<sql_create_table>CREATE TABLE `roles` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="detail_roles" view="colnames">
+<left>856</left>
+<top>467</top>
+<width>99</width>
+<height>147</height>
+<sql_create_table>CREATE TABLE `detail_roles` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `pegawai_id` bigint(20) unsigned NOT NULL,
+  `role_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `detail_roles_pegawai_id_foreign` (`pegawai_id`),
+  KEY `detail_roles_role_id_foreign` (`role_id`),
+  CONSTRAINT `detail_roles_pegawai_id_foreign` FOREIGN KEY (`pegawai_id`) REFERENCES `pegawais` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `detail_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="jasas" view="colnames">
+<left>989</left>
+<top>233</top>
+<width>113</width>
+<height>193</height>
+<sql_create_table>CREATE TABLE `jasas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deskripsi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `harga` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `paket_jasa_id` bigint(20) unsigned DEFAULT NULL,
+  `kategori_id` bigint(20) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `jasas_paket_jasa_id_foreign` (`paket_jasa_id`),
+  KEY `jasas_kategori_id_foreign` (`kategori_id`),
+  CONSTRAINT `jasas_kategori_id_foreign` FOREIGN KEY (`kategori_id`) REFERENCES `kategoris` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `jasas_paket_jasa_id_foreign` FOREIGN KEY (`paket_jasa_id`) REFERENCES `paket_jasas` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="kategoris" view="colnames">
+<left>840</left>
+<top>90</top>
+<width>99</width>
+<height>147</height>
+<sql_create_table>CREATE TABLE `kategoris` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deskripsi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="mapping_grups" view="colnames">
+<left>179</left>
+<top>287</top>
+<width>144</width>
+<height>162</height>
+<sql_create_table>CREATE TABLE `mapping_grups` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `pegawai_id` bigint(20) unsigned NOT NULL,
+  `transaksi_id` bigint(20) unsigned NOT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `mapping_grups_pegawai_id_foreign` (`pegawai_id`),
+  KEY `mapping_grups_transaksi_id_foreign` (`transaksi_id`),
+  CONSTRAINT `mapping_grups_pegawai_id_foreign` FOREIGN KEY (`pegawai_id`) REFERENCES `pegawais` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `mapping_grups_transaksi_id_foreign` FOREIGN KEY (`transaksi_id`) REFERENCES `transaksis` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="mapping_sub_grups" view="colnames">
+<left>12</left>
+<top>215</top>
+<width>138</width>
+<height>177</height>
+<sql_create_table>CREATE TABLE `mapping_sub_grups` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `transaksi_id` bigint(20) unsigned NOT NULL,
+  `mapping_grup_id` bigint(20) unsigned NOT NULL,
+  `detail_transaksi_id` bigint(20) unsigned NOT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `mapping_sub_grups_transaksi_id_foreign` (`transaksi_id`),
+  KEY `mapping_sub_grups_mapping_grup_id_foreign` (`mapping_grup_id`),
+  KEY `mapping_sub_grups_detail_transaksi_id_foreign` (`detail_transaksi_id`),
+  CONSTRAINT `mapping_sub_grups_detail_transaksi_id_foreign` FOREIGN KEY (`detail_transaksi_id`) REFERENCES `detail_transaksis` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `mapping_sub_grups_mapping_grup_id_foreign` FOREIGN KEY (`mapping_grup_id`) REFERENCES `mapping_grups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `mapping_sub_grups_transaksi_id_foreign` FOREIGN KEY (`transaksi_id`) REFERENCES `transaksis` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="paket_jasas" view="colnames">
+<left>1133</left>
+<top>63</top>
+<width>99</width>
+<height>147</height>
+<sql_create_table>CREATE TABLE `paket_jasas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deskripsi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="skills" view="colnames">
+<left>1265</left>
+<top>406</top>
+<width>99</width>
+<height>147</height>
+<sql_create_table>CREATE TABLE `skills` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deskripsi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="rincian_jasas" view="colnames">
+<left>1348</left>
+<top>224</top>
+<width>99</width>
+<height>147</height>
+<sql_create_table>CREATE TABLE `rincian_jasas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `jasa_id` bigint(20) unsigned NOT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `rincian_jasas_jasa_id_foreign` (`jasa_id`),
+  CONSTRAINT `rincian_jasas_jasa_id_foreign` FOREIGN KEY (`jasa_id`) REFERENCES `jasas` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="mapping_sub_projects" view="colnames">
+<left>238</left>
+<top>674</top>
+<width>155</width>
+<height>193</height>
+<sql_create_table>CREATE TABLE `mapping_sub_projects` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `mapping_sub_grup_id` bigint(20) unsigned NOT NULL,
+  `rincian_jasa_id` bigint(20) unsigned NOT NULL,
+  `pegawai_id` bigint(20) unsigned NOT NULL,
+  `persentasi_gaji` int(11) NOT NULL,
+  `sub_project` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `mapping_sub_projects_mapping_sub_grup_id_foreign` (`mapping_sub_grup_id`),
+  KEY `mapping_sub_projects_rincian_jasa_id_foreign` (`rincian_jasa_id`),
+  KEY `mapping_sub_projects_pegawai_id_foreign` (`pegawai_id`),
+  CONSTRAINT `mapping_sub_projects_mapping_sub_grup_id_foreign` FOREIGN KEY (`mapping_sub_grup_id`) REFERENCES `mapping_sub_grups` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `mapping_sub_projects_pegawai_id_foreign` FOREIGN KEY (`pegawai_id`) REFERENCES `pegawais` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `mapping_sub_projects_rincian_jasa_id_foreign` FOREIGN KEY (`rincian_jasa_id`) REFERENCES `rincian_jasas` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="detail_skills" view="colnames">
+<left>824</left>
+<top>267</top>
+<width>99</width>
+<height>116</height>
+<sql_create_table>CREATE TABLE `detail_skills` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+<table name="detail_jasas" view="colnames">
+<left>1121</left>
+<top>234</top>
+<width>119</width>
+<height>162</height>
+<sql_create_table>CREATE TABLE `detail_jasas` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `skill_id` bigint(20) unsigned NOT NULL,
+  `rincian_jasa_id` bigint(20) unsigned NOT NULL,
+  `pegawai_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `detail_jasas_rincian_jasa_id_foreign` (`rincian_jasa_id`),
+  KEY `detail_jasas_skill_id_foreign` (`skill_id`),
+  KEY `detail_jasas_pegawai_id_foreign` (`pegawai_id`),
+  CONSTRAINT `detail_jasas_pegawai_id_foreign` FOREIGN KEY (`pegawai_id`) REFERENCES `pegawais` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `detail_jasas_rincian_jasa_id_foreign` FOREIGN KEY (`rincian_jasa_id`) REFERENCES `rincian_jasas` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `detail_jasas_skill_id_foreign` FOREIGN KEY (`skill_id`) REFERENCES `skills` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>
