@@ -163,7 +163,7 @@ class TransactionController extends Controller
             $getLastTransaction = Transaksi::with('detailtransaksis')->where('id', $data->id)->get();
             return response()->json([
                 'success' => true,
-                'data' => $data
+                'data' => $getLastTransaction
             ]);
         }catch(Exception $e){
             return response()->json([
