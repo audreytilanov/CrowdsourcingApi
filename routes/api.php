@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Admin\AdminLoginController;
 use App\Http\Controllers\Api\Admin\DetailRoleController;
 use App\Http\Controllers\Api\Admin\MaterialController;
 use App\Http\Controllers\Api\Admin\RincianJasaController;
+use App\Http\Controllers\Api\Admin\DetailJasaPegawaiController;
 use App\Http\Controllers\Api\Admin\TransactionAdminController;
 use App\Http\Controllers\Api\User\TransactionController;
 
@@ -132,11 +133,30 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
         Route::prefix('transaksiadmin')->name('transaksiadmin.')->group(function(){
             Route::get('/',[TransactionAdminController::class, 'index'])->name('index');
-            Route::post('/create',[TransactionAdminController::class, 'store'])->name('store');
-            Route::get('/edit/{id}',[TransactionAdminController::class, 'edit'])->name('edit');
-            Route::post('/edit/{id}',[TransactionAdminController::class, 'update'])->name('update');
+            // Route::post('/create',[TransactionAdminController::class, 'store'])->name('store');
+            // Route::get('/edit/{id}',[TransactionAdminController::class, 'edit'])->name('edit');
+            // Route::post('/edit/{id}',[TransactionAdminController::class, 'update'])->name('update');
+            Route::post('/status/progress/{id}',[TransactionAdminController::class, 'statusProgress'])->name('status.progress');
+            Route::post('/status/finish/{id}',[TransactionAdminController::class, 'statusFinish'])->name('status.finish');
             Route::post('/delete/{id}',[TransactionAdminController::class, 'delete'])->name('delete');
         });
+
+        Route::prefix('detailjasapegawai')->name('detailjasapegawai.')->group(function(){
+            Route::get('/',[DetailJasaPegawaiController::class, 'rincianjasaindex'])->name('rincianjasa.index');
+            Route::get('/detail/{id}',[DetailJasaPegawaiController::class, 'index'])->name('index');
+            Route::post('/create',[DetailJasaPegawaiController::class, 'store'])->name('store');
+            Route::get('/edit/{id}',[DetailJasaPegawaiController::class, 'edit'])->name('edit');
+            Route::post('/edit/{id}',[DetailJasaPegawaiController::class, 'update'])->name('update');
+            Route::post('/delete/{id}',[DetailJasaPegawaiController::class, 'delete'])->name('delete');
+        });
+
+        // Route::prefix('mapping')->name('mapping.')->group(function(){
+        //     Route::get('/',[MappingCpntroller::class, 'index'])->name('index');
+        //     Route::post('/create',[MappingCpntroller::class, 'store'])->name('store');
+        //     Route::get('/edit/{id}',[MappingCpntroller::class, 'edit'])->name('edit');
+        //     Route::post('/edit/{id}',[MappingCpntroller::class, 'update'])->name('update');
+        //     Route::post('/delete/{id}',[MappingCpntroller::class, 'delete'])->name('delete');
+        // });
 
 
     Route::get('/logout', [AdminLoginController::class, 'logout'])->name('user.logout');

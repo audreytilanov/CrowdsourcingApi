@@ -17,4 +17,8 @@ class RincianJasa extends Model
     public function jasas(){
         return $this->belongsTo(Jasa::class, 'jasa_id', 'id');
     }
+
+    public function detailjasapegawais(){
+        return $this->hasMany(DetailJasa::class, 'rincian_jasa_id', 'id');
+    }
 }
