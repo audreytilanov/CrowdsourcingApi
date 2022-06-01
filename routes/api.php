@@ -145,7 +145,6 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::get('/',[DetailJasaPegawaiController::class, 'rincianjasaindex'])->name('rincianjasa.index');
             Route::get('/detail/{id}',[DetailJasaPegawaiController::class, 'index'])->name('index');
             Route::post('/create',[DetailJasaPegawaiController::class, 'store'])->name('store');
-            Route::get('/edit/{id}',[DetailJasaPegawaiController::class, 'edit'])->name('edit');
             Route::post('/edit/{id}',[DetailJasaPegawaiController::class, 'update'])->name('update');
             Route::post('/delete/{id}',[DetailJasaPegawaiController::class, 'delete'])->name('delete');
         });

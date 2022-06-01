@@ -53,33 +53,16 @@ class DetailJasaPegawaiController extends Controller
         }
     }
 
-    public function edit($id){
-        try{
-            $data = DetailJasa::find($id);
-
-            return response()->json([
-                'success' => true,
-                'data' => $data
-            ]);
-        }catch(Exception $e){
-            return response()->json([
-                'success' => false,
-                'message' => $e
-            ]);
-        }
-        
-    }
-
     public function store(Request $request){
         try{
-            Material::create([
-                'detail' => $request->detail,
-                'link' => $request->link,
-                'detail_transaksi_id' => $request->detail_transaksi_id,
+            DetailJasa::create([
+                'skill_id' => $request->skill_id,
+                'rincian_jasa_id' => $request->rincian_jasa_id,
+                'pegawai_id' => $request->pegawai_id,
             ]);
             return response()->json([
                 'success' => true,
-                'message' => "Material Created"
+                'message' => "Detail Jasa Pegawai Created"
             ]);
         }catch(Exception $e){
             return response()->json([
@@ -92,16 +75,16 @@ class DetailJasaPegawaiController extends Controller
     public function update($id, Request $request){
 
         try{
-            $kategoriId = Material::find($id);
+            $kategoriId = DetailJasa::find($id);
 
             $kategoriId->update([
-                'detail' => $request->detail,
-                'link' => $request->link,
-                'detail_transaksi_id' => $request->detail_transaksi_id,
+                'skill_id' => $request->skill_id,
+                'rincian_jasa_id' => $request->rincian_jasa_id,
+                'pegawai_id' => $request->pegawai_id,
             ]);
             return response()->json([
                 'success' => true,
-                'message' => "Material Updated",
+                'message' => "Detail Jasa Pegawai Updated",
             ]);
         }catch(Exception $e){
             return response()->json([
@@ -114,12 +97,12 @@ class DetailJasaPegawaiController extends Controller
     public function delete($id){
 
         try{
-            $kategoriId = Material::find($id);
+            $kategoriId = DetailJasa::find($id);
 
             $kategoriId->delete();
             return response()->json([
                 'success' => true,
-                'message' => "Material Deleted"
+                'message' => "Detail Jasa Pegawai Deleted"
             ]);
         }catch(Exception $e){
             return response()->json([
