@@ -123,33 +123,38 @@ class TransactionController extends Controller
                 'status' => "Waiting for Payment",
             ]);
             $totalHarga = array();
-            foreach ($datas['detail'] as $key => $value) {
-                $jasaId = Jasa::find($value['jasa_id']);
-                $detail = DetailTransaksi::create([
-                    'transaksi_id' => $data->id,
-                    'jasa_id' => $value['jasa_id'],
-                    'qty' => $value['qty'], 
-                    'harga_total' => $jasaId->harga * $value['qty'],
-                    'status' => "progress"
-                ]);
-                if(!empty($value['detail']) && !empty($value['link'])){
-                    Material::create([
-                        "detail" => $value['detail'],
-                        "link" => $value['link'],
-                        "detail_transaksi_id" => $detail->id,
+            if(!empty($datas['detail'])){
+                foreach ($datas['detail'] as $key => $value) {
+                    $jasaId = Jasa::find($value['jasa_id']);
+                    $detail = DetailTransaksi::create([
+                        'transaksi_id' => $data->id,
+                        'jasa_id' => $value['jasa_id'],
+                        'qty' => $value['qty'], 
+                        'harga_total' => $jasaId->harga * $value['qty'],
+                        'status' => "progress"
                     ]);
+                    if(!empty($value['detail']) && !empty($value['link'])){
+                        Material::create([
+                            "detail" => $value['detail'],
+                            "link" => $value['link'],
+                            "detail_transaksi_id" => $detail->id,
+                        ]);
+                    }
+                    array_push($totalHarga, $jasaId->harga * $value['qty']);
                 }
-                array_push($totalHarga, $jasaId->harga * $value['qty']);
+
+                $updateTransaksi = Transaksi::find($data->id);
+                $hargaTotal = array_sum($totalHarga);
+                $updateTransaksi->update([
+                    'jumlah_harga' => $hargaTotal
+                ]); 
             }
-            $updateTransaksi = Transaksi::find($data->id);
-            $hargaTotal = array_sum($totalHarga);
-            $updateTransaksi->update([
-                'jumlah_harga' => $hargaTotal
-            ]); 
+            
+            
             $getLastTransaction = Transaksi::with('detailtransaksis')->where('id', $data->id)->get();
             return response()->json([
                 'success' => true,
-                'data' => $getLastTransaction
+                'data' => $data
             ]);
         }catch(Exception $e){
             return response()->json([
