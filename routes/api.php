@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\Admin\RincianJasaController;
 use App\Http\Controllers\Api\Admin\MappingSubGrupController;
 use App\Http\Controllers\Api\Admin\TransactionAdminController;
 use App\Http\Controllers\Api\Admin\DetailJasaPegawaiController;
+use App\Http\Controllers\Api\Admin\MappingSubProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -165,6 +166,14 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::post('/create/{id}',[MappingSubGrupController::class, 'store'])->name('store'); //id mapping
             Route::post('/edit/{id}',[MappingSubGrupController::class, 'update'])->name('update'); //id mapping sub
             Route::post('/delete/{id}',[MappingSubGrupController::class, 'delete'])->name('delete'); //id mapping sub
+        });
+
+        Route::prefix('mappingsubproject')->name('mappingsubproject.')->group(function(){
+            Route::get('/{id}',[MappingSubProjectController::class, 'index'])->name('index');
+            Route::get('/detail/{id}',[MappingSubProjectController::class, 'detail'])->name('detail'); //id mapping
+            Route::post('/create/{id}',[MappingSubProjectController::class, 'store'])->name('store'); //id mapping
+            Route::post('/edit/{id}',[MappingSubProjectController::class, 'update'])->name('update'); //id mapping sub
+            Route::post('/delete/{id}',[MappingSubProjectController::class, 'delete'])->name('delete'); //id mapping sub
         });
 
 
