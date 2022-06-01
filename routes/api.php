@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\Admin\RincianJasaController;
 use App\Http\Controllers\Api\Admin\MappingSubGrupController;
 use App\Http\Controllers\Api\Admin\TransactionAdminController;
 use App\Http\Controllers\Api\Admin\DetailJasaPegawaiController;
+use App\Http\Controllers\Api\Admin\DiskusiController;
 use App\Http\Controllers\Api\Admin\MappingSubProjectController;
 
 /*
@@ -176,8 +177,14 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::post('/delete/{id}',[MappingSubProjectController::class, 'delete'])->name('delete'); //id mapping sub
         });
 
+        Route::prefix('mappingsubproject')->name('mappingsubproject.')->group(function(){
+            Route::get('/{id}',[DiskusiController::class, 'index'])->name('index');
+            Route::get('/{id}',[DiskusiController::class, 'receive'])->name('receive');
+            Route::post('/create/{id}',[DiskusiController::class, 'send'])->name('send');
+        });
 
-    Route::get('/logout', [AdminLoginController::class, 'logout'])->name('user.logout');
+
+    Route::get('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
     });
 });
