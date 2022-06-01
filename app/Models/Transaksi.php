@@ -33,4 +33,8 @@ class Transaksi extends Model
     public function detailtransaksis(){
         return $this->hasMany(DetailTransaksi::class, 'transaksi_id', 'id');
     }
+
+    public function mappinggrups(){
+        return $this->hasOne(MappingGrup::class, 'transaksi_id', 'id');
+    }
 }

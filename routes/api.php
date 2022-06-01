@@ -7,14 +7,16 @@ use App\Http\Controllers\Api\Admin\RoleController;
 use App\Http\Controllers\Api\User\LoginController;
 use App\Http\Controllers\Api\Admin\SkillController;
 use App\Http\Controllers\Api\Admin\KategoriController;
+use App\Http\Controllers\Api\Admin\MaterialController;
 use App\Http\Controllers\Api\Admin\PaketJasaController;
 use App\Http\Controllers\Api\Admin\AdminLoginController;
 use App\Http\Controllers\Api\Admin\DetailRoleController;
-use App\Http\Controllers\Api\Admin\MaterialController;
-use App\Http\Controllers\Api\Admin\RincianJasaController;
-use App\Http\Controllers\Api\Admin\DetailJasaPegawaiController;
-use App\Http\Controllers\Api\Admin\TransactionAdminController;
 use App\Http\Controllers\Api\User\TransactionController;
+use App\Http\Controllers\Api\Admin\MappingGrupController;
+use App\Http\Controllers\Api\Admin\RincianJasaController;
+use App\Http\Controllers\Api\Admin\MappingSubGrupController;
+use App\Http\Controllers\Api\Admin\TransactionAdminController;
+use App\Http\Controllers\Api\Admin\DetailJasaPegawaiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -149,13 +151,21 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::post('/delete/{id}',[DetailJasaPegawaiController::class, 'delete'])->name('delete');
         });
 
-        // Route::prefix('mapping')->name('mapping.')->group(function(){
-        //     Route::get('/',[MappingCpntroller::class, 'index'])->name('index');
-        //     Route::post('/create',[MappingCpntroller::class, 'store'])->name('store');
-        //     Route::get('/edit/{id}',[MappingCpntroller::class, 'edit'])->name('edit');
-        //     Route::post('/edit/{id}',[MappingCpntroller::class, 'update'])->name('update');
-        //     Route::post('/delete/{id}',[MappingCpntroller::class, 'delete'])->name('delete');
-        // });
+        Route::prefix('mapping')->name('mapping.')->group(function(){
+            Route::get('/',[MappingGrupController::class, 'index'])->name('index');
+            Route::get('/detail/{id}',[MappingGrupController::class, 'detail'])->name('detail'); //id mapping
+            Route::post('/create/{id}',[MappingGrupController::class, 'store'])->name('store'); //id mapping
+            Route::post('/edit/{id}',[MappingGrupController::class, 'update'])->name('update'); //id mapping sub
+            Route::post('/delete/{id}',[MappingGrupController::class, 'delete'])->name('delete'); //id mapping sub
+        });
+
+        Route::prefix('mappingsubgrup')->name('mappingsubgrup.')->group(function(){
+            Route::get('/{id}',[MappingSubGrupController::class, 'index'])->name('index');
+            Route::get('/detail/{id}',[MappingSubGrupController::class, 'detail'])->name('detail'); //id mapping
+            Route::post('/create/{id}',[MappingSubGrupController::class, 'store'])->name('store'); //id mapping
+            Route::post('/edit/{id}',[MappingSubGrupController::class, 'update'])->name('update'); //id mapping sub
+            Route::post('/delete/{id}',[MappingSubGrupController::class, 'delete'])->name('delete'); //id mapping sub
+        });
 
 
     Route::get('/logout', [AdminLoginController::class, 'logout'])->name('user.logout');
