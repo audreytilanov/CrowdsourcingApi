@@ -10,12 +10,37 @@ use App\Http\Controllers\Controller;
 class PaketJasaController extends Controller
 {
     public function index(){
-        $data = PaketJasa::all();
+        
+        try{
+            $data = PaketJasa::all();
 
-        return response()->json([
-            'success' => true,
-            'data' => $data
-        ]);
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        }catch(Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => $e
+            ]);
+        }
+    }
+
+    public function edit($id){
+        
+        try{
+            $data = PaketJasa::find($id);
+
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        }catch(Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => $e
+            ]);
+        }
     }
 
     public function store(Request $request){

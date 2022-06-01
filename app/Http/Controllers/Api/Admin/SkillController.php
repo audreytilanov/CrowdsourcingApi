@@ -10,12 +10,36 @@ use App\Http\Controllers\Controller;
 class SkillController extends Controller
 {
     public function index(){
-        $data = Skill::all();
+        try{
+            $data = Skill::all();
 
-        return response()->json([
-            'success' => true,
-            'data' => $data
-        ]);
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        }catch(Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => $e
+            ]);
+        }
+    }
+
+    public function edit($id){
+        try{
+            $data = Skill::find($id);
+
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
+        }catch(Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => $e
+            ]);
+        }
+        
     }
 
     public function store(Request $request){

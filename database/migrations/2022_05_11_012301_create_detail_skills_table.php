@@ -15,12 +15,12 @@ class CreateDetailSkillsTable extends Migration
     {
         Schema::create('detail_skills', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('pegawai_id');
-            // $table->foreignId('jasa_id');
+            $table->foreignId('pegawai_id');
+            $table->foreignId('skill_id');
             $table->timestamps();
 
-            // $table->foreign('pegawai_id')->references('id')->on('pegawais')->onDelete('cascade');
-            // $table->foreign('jasa_id')->references('id')->on('jasas')->onDelete('cascade');
+            $table->foreign('pegawai_id')->references('id')->on('pegawais')->onDelete('cascade');
+            $table->foreign('skill_id')->references('id')->on('skills')->onDelete('cascade');
 
         });
     }
