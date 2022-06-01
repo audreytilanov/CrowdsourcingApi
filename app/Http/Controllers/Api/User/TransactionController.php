@@ -116,12 +116,21 @@ class TransactionController extends Controller
         // dd($datas->id[0]);
         // $data = [1,2];
         try{
-            $data = Transaksi::create([
-                'nama' => $datas['nama'],
-                'user_id' => Auth::guard('api')->user()->id,
-                'kategori_id' => $datas['kategori_id'],
-                'status' => "Waiting for Payment",
-            ]);
+            if(empty($datas['kategori_id'])){
+                $data = Transaksi::create([
+                    'nama' => $datas['nama'],
+                    'user_id' => Auth::guard('api')->user()->id,
+                    'status' => "Waiting for Payment",
+                ]);
+            }else{
+                $data = Transaksi::create([
+                    'nama' => $datas['nama'],
+                    'user_id' => Auth::guard('api')->user()->id,
+                    'kategori_id' => $datas['kategori_id'],
+                    'status' => "Waiting for Payment",
+                ]);
+            }
+            
             $totalHarga = array();
             if(!empty($datas['detail'])){
                 foreach ($datas['detail'] as $key => $value) {
