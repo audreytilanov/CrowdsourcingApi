@@ -27,7 +27,7 @@ class JasaController extends Controller
 
     public function edit($id){
         try{
-            $data = Jasa::find($id);
+            $data = Jasa::with(['paketjasas', 'kategoris'])->find($id);
 
             return response()->json([
                 'success' => true,
