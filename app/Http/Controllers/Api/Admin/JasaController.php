@@ -11,7 +11,7 @@ class JasaController extends Controller
 {
     public function index(){
         try{
-            $data = Jasa::with(['paketjasas', 'kategoris']);
+            $data = Jasa::with(['paketjasas', 'kategoris'])->get();
 
             return response()->json([
                 'success' => true,
