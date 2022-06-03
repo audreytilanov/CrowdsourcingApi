@@ -66,7 +66,6 @@ class RincianJasaController extends Controller
             $kategoriId = RincianJasa::find($id);
 
             $kategoriId->update([
-                'jasa_id' => $request->jasa_id,
                 'nama' => $request->nama,
             ]);
             return response()->json([
