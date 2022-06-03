@@ -104,14 +104,6 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::post('/delete/{id}',[JasaController::class, 'delete'])->name('delete');
         });
 
-        Route::prefix('pegawai')->name('pegawai.')->group(function(){
-            Route::get('/',[PegawaiController::class, 'index'])->name('index');
-            Route::post('/create',[PegawaiController::class, 'store'])->name('store');
-            Route::get('/edit/{id}',[PegawaiController::class, 'edit'])->name('edit');
-            Route::post('/edit/{id}',[PegawaiController::class, 'update'])->name('update');
-            Route::post('/delete/{id}',[PegawaiController::class, 'delete'])->name('delete');
-        });
-
         Route::prefix('role')->name('role.')->group(function(){
             Route::get('/',[RoleController::class, 'index'])->name('index');
             Route::post('/create',[RoleController::class, 'store'])->name('store');
@@ -195,6 +187,15 @@ Route::prefix('admin')->name('admin.')->group(function(){
 
     Route::get('/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
+    
+
+        Route::prefix('pegawai')->name('pegawai.')->group(function(){
+            Route::get('/',[PegawaiController::class, 'index'])->name('index');
+            Route::post('/create',[PegawaiController::class, 'store'])->name('store');
+            Route::get('/edit/{id}',[PegawaiController::class, 'edit'])->name('edit');
+            Route::post('/edit/{id}',[PegawaiController::class, 'update'])->name('update');
+            Route::post('/delete/{id}',[PegawaiController::class, 'delete'])->name('delete');
+        });
     });
 });
 
