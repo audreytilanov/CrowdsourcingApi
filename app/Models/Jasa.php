@@ -24,4 +24,8 @@ class Jasa extends Model
     public function kategoris(){
         return $this->belongsTo(Kategori::class, 'kategori_id', 'id');
     }
+
+    public function rincianjasas(){
+        return $this->hasMany(RincianJasa::class, 'jasa_id', 'id');
+    }
 }
