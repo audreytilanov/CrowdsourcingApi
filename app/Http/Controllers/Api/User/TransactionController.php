@@ -119,7 +119,7 @@ class TransactionController extends Controller
             if(empty($datas['kategori_id'])){
                 $data = Transaksi::create([
                     'nama' => $datas['nama'],
-                    'user_id' => Auth::guard('api')->user()->id,
+                    'user_id' => 1,
                     'status' => "Waiting for Payment",
                 ]);
             }else{
