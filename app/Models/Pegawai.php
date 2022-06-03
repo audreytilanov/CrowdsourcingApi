@@ -18,6 +18,7 @@ class Pegawai extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name',
         'email',
+        'hp',
         'alamat',
         'password',
     ];
