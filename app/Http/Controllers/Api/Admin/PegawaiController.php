@@ -25,6 +25,7 @@ class PegawaiController extends Controller
                 'message' => $e
             ]);
         }
+        // sdasd
     }
 
     public function edit($id){
