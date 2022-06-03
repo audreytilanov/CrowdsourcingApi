@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\Admin\JasaController;
 use App\Http\Controllers\Api\Admin\RoleController;
 use App\Http\Controllers\Api\User\LoginController;
 use App\Http\Controllers\Api\Admin\SkillController;
+use App\Http\Controllers\Api\Admin\DiskusiController;
+use App\Http\Controllers\Api\Admin\PegawaiController;
 use App\Http\Controllers\Api\Admin\KategoriController;
 use App\Http\Controllers\Api\Admin\MaterialController;
 use App\Http\Controllers\Api\Admin\PaketJasaController;
@@ -17,7 +19,6 @@ use App\Http\Controllers\Api\Admin\RincianJasaController;
 use App\Http\Controllers\Api\Admin\MappingSubGrupController;
 use App\Http\Controllers\Api\Admin\TransactionAdminController;
 use App\Http\Controllers\Api\Admin\DetailJasaPegawaiController;
-use App\Http\Controllers\Api\Admin\DiskusiController;
 use App\Http\Controllers\Api\Admin\MappingSubProjectController;
 
 /*
@@ -101,6 +102,14 @@ Route::prefix('admin')->name('admin.')->group(function(){
             Route::get('/edit/{id}',[JasaController::class, 'edit'])->name('edit');
             Route::post('/edit/{id}',[JasaController::class, 'update'])->name('update');
             Route::post('/delete/{id}',[JasaController::class, 'delete'])->name('delete');
+        });
+
+        Route::prefix('pegawai')->name('pegawai.')->group(function(){
+            Route::get('/',[PegawaiController::class, 'index'])->name('index');
+            Route::post('/create',[PegawaiController::class, 'store'])->name('store');
+            Route::get('/edit/{id}',[PegawaiController::class, 'edit'])->name('edit');
+            Route::post('/edit/{id}',[PegawaiController::class, 'update'])->name('update');
+            Route::post('/delete/{id}',[PegawaiController::class, 'delete'])->name('delete');
         });
 
         Route::prefix('role')->name('role.')->group(function(){

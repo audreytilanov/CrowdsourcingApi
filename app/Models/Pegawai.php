@@ -40,4 +40,8 @@ class Pegawai extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function detailroles(){
+        return $this->hasOne(DetailRole::class, 'pegawai_id', 'id');
+    }
 }
